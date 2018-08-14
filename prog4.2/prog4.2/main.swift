@@ -57,10 +57,11 @@ var array: Array = Array(list: list)
 print("\n\(array)")
 
 print("Setting array[2] to \(str1)")
-//array.set(object: str1, at: 2)
+print("\n\(array)")
+print("hello")
 array[2] = str1
-print("\(array)")
-//
+
+
 print("Sorting array");
 array.sort(isObject: { o1, o2 in (o1 as! String) < (o2 as! String) })
 for index in 0..<array.count {

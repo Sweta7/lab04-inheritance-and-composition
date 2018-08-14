@@ -32,7 +32,7 @@ class Array {
      - returns: String String representation of the Array
      */
     var description: String {
-        return "(Array) ->" + list.description + "<-" + String(self.count - 1)
+        return "(Array) ->" + list.description + "<-" + String(self._count - 1)
     }
     
     // INITIALISERS
@@ -44,8 +44,9 @@ class Array {
      - parameter list: LinkedList to initialise array with (nil by default)
      */
     
-    init(list: LinkedList) {
-        self.list = list
+    init(list: LinkedList? = nil) {
+        self.list = list!
+        self._count = list!.count
     }
     
     // METHODS
@@ -62,7 +63,7 @@ class Array {
         self._count += 1
     }
     
-    /*func getNodeAtIndex(index: Int) -> Node? {
+    func getNodeAtIndex(index: Int) -> Node? {
         var node: Node? = list.head;
         // Walk through the list until the
         // specified index
@@ -79,7 +80,7 @@ class Array {
             }
         }
         return node;
-    }*/
+    }
     
     /**
      Removes a node from the array - overrideds LinkedList method
@@ -106,12 +107,19 @@ class Array {
      - return: Any object at specified index
      */
     func getObject(index: Int) -> Any {
-        return getNodeAtIndex(index: index)?.object // return object at that index
+        assert(index < self._count && index >= 0, "Index outof bound")
+        return getNodeAtIndex(index: index)?.object
     }
     
     func setObject(object: Any, at: Int) {
-        if at < self.count && at >= 0 {
-            var node = getNodeAtIndex(index: at)
+        /*print(at)
+        print(self._count)
+        assert(at < self._count && at >= 0, "Index out of bounds")
+        let temp: Node = getNodeAtIndex(index: at)!
+        temp.object = object*/
+        
+        if at < self._count && at >= 0 {
+            let node = getNodeAtIndex(index: at)
             node?.object = object;
         } else if at >= list.count{
             list.add(object: object)
@@ -124,14 +132,14 @@ class Array {
      
      - parameter index: Index of the item in the array
      */
-   /* subscript(index: Int) -> Any {
+    subscript(index: Int) -> Any {
         get {
-            return list.get(index: index)
+            return self.getObject(index: index)
         }
         set(newObject) {
-            list.set(object: newObject, at: index)
+            self.setObject(object: newObject, at: index)
         }
-    }*/
+    }
     
     func sort(isObject: (Any, Any) -> Bool) {
         
